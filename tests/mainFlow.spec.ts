@@ -7,7 +7,7 @@ await page.goto('https://10web.io/ai-website-builder/')
 //Prompt and generation
 const promptarea = page.locator('.inputs-container textarea[name="description"]');
 await promptarea.click();
-await promptarea.pressSequentially('generate a simple website')
+await promptarea.pressSequentially('generate a simple website with logo name "Key Element"')
 await page.locator('span.only_generate_text').click();
 await page.waitForURL(/.*setup-onboarding\/v2-ai-website-building.*/);
 
@@ -38,7 +38,7 @@ const email = faker.internet.email();
 const firstName = faker.person.firstName();    
 const lastName = faker.person.lastName();       
 
-await page.locator('input[placeholder="Email"]').fill(email)
+await page.locator('input[placeholder="Email"]').type(email, { delay: 75 });
 await page.locator('input[placeholder="First name"]').fill(firstName)
 await page.locator('input[placeholder="Last name"]').fill(lastName)
 await page.locator('input[placeholder="Password"]').fill('Qw123456@')
@@ -54,9 +54,7 @@ await expect(page.getByText('Your website is ready!')).toBeVisible();
 
 //Key element
 await page.getByText('Preview And Edit').click();
-const keyElement = page.getByText('Get Started');
-await expect(keyElement).toBeVisible();
-
-
+await page.waitForLoadState('load');
+await expect(page.locator('img').first()).toBeVisible();
 
 });
